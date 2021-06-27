@@ -2,7 +2,7 @@ const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
-
+var gameState = "onSling";
 var engine, world;
 var holder,ball,ground;
 var stand1,stand2;
@@ -20,7 +20,9 @@ function setup() {
   ground = new Ground();
   stand1 = new Stand(390,300,250,10);
   stand2 = new Stand(700,200,200,10);
- 
+  polygon = new Polygon(100,200,60,60);
+   slingshot = new SlingShot(polygon.body,{x:100,y:200});
+
   //level one
   block1 = new Block(300,275,30,40);
   console.log(block1);
@@ -43,13 +45,17 @@ function setup() {
   //top
   block16 = new Block(390,155,30,40);
 
-b1 = new Block(700,175,30,40);
-b2 = new Block (700,180,30,40); 
-b3 = new Block (700,185,30,40);
-b4 = new Block (700,190,30,40);
-b5 = new Block (700,195,30,40);
+b1 = new Block(640,170,30,40);
+b2 = new Block (670,170,30,40); 
+b3 = new Block (700,170,30,40);
+b4 = new Block (730,170,30,40);
+b5 = new Block (760,170,30,40);
 
+b6 = new Block (670,120,30,40); 
+b7 = new Block (700,120,30,40);
+b8 = new Block (730,120,30,40);
 
+b9 = new Block (700,90,30,40);
 
 
 
@@ -67,11 +73,12 @@ b5 = new Block (700,195,30,40);
 
 }
 function draw() {
-  background(56,44,44); 
+  background("white"); 
  
   textSize(20);
   fill("lightyellow");
-  
+  polygon.display();
+    slingshot.display();
 
   ground.display();
   stand1.display();
@@ -89,21 +96,40 @@ function draw() {
 
  b1.display();
   b2.display();
-  //b3.display();
-// b4.display();
- // b5.display();
+  b3.display();
+ b4.display();
+  b5.display();
   fill("pink");
   block8.display();
   block9.display();
   block10.display();
   block11.display();
   block12.display();
+
+  b6.display();
+ b7.display();
+  b8.display();
   fill("turquoise");
   block13.display();
   block14.display();
   block15.display();
+
+  b9.display();
   fill("grey");
   block16.display();
  
  
 }
+
+function mouseDragged(){
+  if (gameState!=="launched"){
+      Matter.Body.setPosition(polygon.body, {x: mouseX , y: mouseY});
+  }
+}
+
+
+function mouseReleased(){
+  slingshot.fly();
+  gameState = "launched";
+}
+
